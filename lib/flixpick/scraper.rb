@@ -22,7 +22,7 @@ class Scraper
     end
 
     def self.genre_list_scraper(urls)
-        movie_names_and_scores = {}
+        movie_genre_names = {}
 
         urls.each do |k,v|
             # opens each genre list url
@@ -43,12 +43,13 @@ class Scraper
                 movie_name_list[idx] + " // Tomato Score - #{m_score}%"
             end 
 
-            movie_names_and_scores[k] = movie_name_and_scores
+            movie_genre_names[k] = movie_name_and_scores
             # Movie Title - doc.css(".table").css('tr a').first.text.strip
             # Score - doc.css(".table").css('.tMeterScore').text.gsub("%", "")
             
         end
-        binding.pry
+
+        movie_genre_names
     end
 
 
@@ -58,7 +59,5 @@ class Scraper
         index_page_scraper(url).each {|k,v| genre_list << k.to_s}
         genre_list
     end
-
+    
 end
-
-Scraper.genre_list_scraper(Scraper.index_page_scraper("https://rottentomatoes.com/top"))
