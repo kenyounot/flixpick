@@ -22,24 +22,33 @@ class Scraper
     end
 
     def self.genre_list_scraper(urls)
-        movie_list_and_scores = []
-        urls.each do |k,v|
-            doc = Nokogiri::HTML(open(v))
+        movie_names_and_scores = {}
 
+        urls.each do |k,v|
+            # opens each genre list url
+            doc = Nokogiri::HTML(open(v), nil, 'utf-8')
+
+            # array of genre titles
             movie_names = doc.css(".table").css('tr a')
+            # array of genre scores
             movie_scores = doc.css(".table").css('.tMeterScore')
 
+            # formatting movie names
             movie_name_list = movie_names.collect {|movie| movie.text.strip}
-            movie_score_list = movie_scores.collect {|score| score.text.strip} 
-            
-            puts  "The movie is #{movie_name_list[0]}, and the rating is#{movie_score_list[0]}"            
-            
-            binding.pry
+            # formatting the movie scores
 
+            movie_name_and_scores = movie_scores.each_with_index.collect do |score, idx|
+                m_score = score.text.gsub("%", '')
+                m_score[0] = ''
+                movie_name_list[idx] + " // Tomato Score - #{m_score}%"
+            end 
 
+            movie_names_and_scores[k] = movie_name_and_scores
             # Movie Title - doc.css(".table").css('tr a').first.text.strip
             # Score - doc.css(".table").css('.tMeterScore').text.gsub("%", "")
+            
         end
+        binding.pry
     end
 
 
