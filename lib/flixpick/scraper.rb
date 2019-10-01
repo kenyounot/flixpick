@@ -48,7 +48,7 @@ class Scraper
             # adds movie+score as one string to hash
             movie_genre_names[k] = movie_name_and_scores
         end
-        binding.pry
+
         movie_genre_names
     end
 
@@ -59,5 +59,3 @@ class Scraper
         genre_list
     end
 end
-
-p Scraper.genre_list_scraper(Scraper.index_page_scraper("https://rottentomatoes.com/top"))

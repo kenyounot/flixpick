@@ -7,7 +7,7 @@ class Movie
         save
     end
 
-
+    def self.add_movies_by_genre
 
     def self.save
         @@all << self
