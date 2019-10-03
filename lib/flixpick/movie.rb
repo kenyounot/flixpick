@@ -1,6 +1,6 @@
-require 'pry'
-require_relative 'scraper.rb'
-require_relative 'genre.rb'
+# require 'pry'
+# require_relative 'scraper.rb'
+# require_relative 'genre.rb'
 
 class Movie
     attr_accessor :name

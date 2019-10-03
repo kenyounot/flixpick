@@ -1,5 +1,5 @@
-require 'pry'
-require_relative 'scraper.rb'
+# require 'pry'
+# require_relative 'scraper.rb'
 
 class Genre
 
