@@ -34,7 +34,6 @@ class Movie
         end
     end
     
-
     def self.find_by_name(name)
         self.all.detect {|mov| mov.name == name}
     end
@@ -57,5 +56,3 @@ class Movie
 end
 
 
-Movie.new_from_hash(Scraper.genre_list_scraper(Scraper.index_page_scraper("https://rottentomatoes.com/top")))
-binding.pry

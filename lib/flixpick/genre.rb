@@ -1,7 +1,6 @@
 require 'pry'
 require_relative 'scraper.rb'
 
-
 class Genre
 
     attr_accessor :name, :movies
