@@ -1,0 +1,4 @@
+#!/usr/bin/env ruby
+require './lib/flixpick'
+
+Flixpick::CLI.new.call

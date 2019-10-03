@@ -1,6 +1,3 @@
-require "flixpick/version"
+require_relative "flixpick/version"
+require_relative './flixpick/cli'
 
-module Flixpick
-  class Error < StandardError; end
-  # Your code goes here...
-end
