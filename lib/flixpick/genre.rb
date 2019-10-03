@@ -1,30 +1,41 @@
 require 'pry'
 require_relative 'scraper.rb'
 
+
 class Genre
-    attr_accessor :name
+
+    attr_accessor :name, :movies
+
     @@all = []
 
     def initialize(name)
         @name = name
-        @@all << self
+        @movies = []
     end
 
-    def self.create_from_hash(hash)
-        hash.each do |g, v|
-            genre = Genre.new(g.to_s)
-        end
+    def self.create(name)
+        genre = new(name)
+        genre.save 
+        genre
     end
 
-    def self.save
-        @@all << self
+    def self.find_by_name(name)
+        self.all.detect {|gen| gen.name == name}
+    end
+
+    def self.find_by_name_or_create(name)
+        find_by_name(name) || create(name)
+    end
+
+    def save
+        self.class.all << self
     end
 
     def self.all
         @@all
     end
-end
 
-Genre.create_from_hash(Scraper.index_page_scraper("https://rottentomatoes.com/top"))
-binding.pry
-puts Genre.all
+    def self.destory_all
+        self.all.clear
+    end
+end
