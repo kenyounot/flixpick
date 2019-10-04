@@ -1,7 +1,3 @@
-# require_relative 'scraper.rb'
-# require 'pry'
-# require_relative 'movie.rb'
-# require_relative 'genre.rb'
 
 class Flixpick::MovieList
     @movie_data = Movie.new_from_hash(Scraper.genre_list_scraper(Scraper.index_page_scraper("https://rottentomatoes.com/top")))
