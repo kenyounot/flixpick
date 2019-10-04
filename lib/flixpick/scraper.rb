@@ -58,18 +58,18 @@ class Scraper
         movie_genre_names
     end
 
-    def self.list_of_summary
-        movie_summaries = {}
-        @movie_genre_urls.each do |genre, url|
-            url.each do |link|
-                doc = Nokogiri::HTML(open(link))
-                summary = doc.css(".panel-body #movieSynopsis").text.strip 
+    # def self.list_of_summary
+    #     movie_summaries = {}
+    #     @movie_genre_urls.each do |genre, url|
+    #         url.each do |link|
+    #             doc = Nokogiri::HTML(open(link))
+    #             summary = doc.css(".panel-body #movieSynopsis").text.strip 
         
-                movie_summaries[genre] = summary
-            end
-        end
-        binding.pry
-    end
+    #             movie_summaries[genre] = summary
+    #         end
+    #     end
+        
+    # end
 
     # returns list of genres
     def self.list_of_genres(url)
