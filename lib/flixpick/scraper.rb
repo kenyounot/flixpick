@@ -20,64 +20,60 @@ class Scraper
 
         genre_url_list
     end
-
-    def self.genre_list_scraper(urls)
-        # hash of movie names with their tomato score, based on genre
-        movie_genre_names = {}
-        @movie_genre_urls = {}
+    # returns genre list and the url to each movie and its info
+    def self.genre_list_scraper(url)
+        url_hash = Scraper.index_page_scraper(url)
+        movie_url_list = {}
 
         # iterates through each genre and their url link to top 100 list
-        urls.each do |k,v|
+        url_hash.each do |k,v|
             # opens each genre's top 100 list
             doc = Nokogiri::HTML(open(v), nil, 'utf-8')
 
-            # array of genre titles
-            movie_names = doc.css(".table").css('tr a')
-            # array of genre scores
-            movie_scores = doc.css(".table").css('.tMeterScore')
+            # array of movies and their attributes
+            movie_list = doc.css(".table").css('tr a')
         
-                
-            # formats movie names; removes white space and junk characters
-            movie_name_list = movie_names.collect {|movie| movie.text.strip}
-
-            # iterates through movie scores of genre list and appends score to movie title
-            movie_name_and_scores = movie_scores.each_with_index.collect do |score, idx|
-                m_score = score.text.gsub("%", '')
-                m_score[0] = ''
-                movie_name_list[idx] + " // Tomato Score - #{m_score}%"
-            end
-
-            movie_urls = movie_names.collect do |movie|
+            movie_urls = movie_list.collect do |movie|
                 "https://rottentomatoes.com" + movie.attributes["href"].value
             end
-            # adds movie+score as one string to hash
-            movie_genre_names[k] = movie_name_and_scores
-            @movie_genre_urls[k] = movie_urls
-            
+        
+            movie_url_list[k] = movie_urls  
         end
-        movie_genre_names
+        movie_url_list
     end
 
-    # def self.list_of_summary
-    #     movie_summaries = {}
-    #     @movie_genre_urls.each do |genre, url|
-    #         url.each do |link|
-    #             doc = Nokogiri::HTML(open(link))
-    #             summary = doc.css(".panel-body #movieSynopsis").text.strip 
-        
-    #             movie_summaries[genre] = summary
-    #         end
-    #     end
-        
-    # end
+    def self.movie_info_scraper(url)
+        url_hash = genre_list_scraper(url)
 
-    # returns list of genres
-    def self.list_of_genres(url)
-        genre_list = []
-        index_page_scraper(url).each {|k,v| genre_list << k.to_s}
-        genre_list
+        genre_and_movies = {}
+
+        url_hash.each do |genre,urls|
+            movie_info = []
+            urls.each do |url|
+                doc = Nokogiri::HTML(open(url))
+
+                movie_name = doc.css("#topSection > div.col-sm-17.col-xs-24.score-panel-wrap > div.mop-ratings-wrap.score_panel.js-mop-ratings-wrap > h1").text
+                movie_score = doc.css("#tomato_meter_link > span.mop-ratings-wrap__percentage").text.strip
+                movie_bio = doc.css("#movieSynopsis").text.strip
+                movie_date = doc.css("#mainColumn > section.panel.panel-rt.panel-box.movie_info.media > div > div > ul > li:nth-child(5) > div.meta-value > time").text
+
+                movie_info << {movie_name => 
+                                {:score => movie_score, :bio => movie_bio, :date => movie_date}
+                              }
+
+        
+            end
+            round = 1
+            puts "Round #{round}"
+            round += 1
+           
+            
+            genre_and_movies[genre] = movie_info
+        end
+        binding.pry
     end
+
 end 
 
 
-
+Scraper.movie_info_scraper("https://rottentomatoes.com/top")
