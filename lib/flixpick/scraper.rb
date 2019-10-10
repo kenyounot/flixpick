@@ -5,12 +5,16 @@ require 'open-uri'
 class Scraper
 
     def self.index_page_scraper(url)
+        # hash to be returned
         genre_url_list = {}
+        # words to be removed from genre list
         junk_words = ["Top", "100", "Movies", "&"]
 
         doc = Nokogiri::HTML(open(url))
+        # list of all top 100 genres
         top_list = doc.css(".panel-body li")
 
+        #iterating over list and grabbing genre name as key, and the url for that genre
         top_list.each do |genre|
             stripped_genre =  (genre.text.strip.split - junk_words)[0].downcase
             url = genre.css('a')[0]["href"]
@@ -50,12 +54,5 @@ class Scraper
         end
 
         movie_genre_names
-    end
-
-    # returns list of genres
-    def self.list_of_genres(url)
-        genre_list = []
-        index_page_scraper(url).each {|k,v| genre_list << k.to_s}
-        genre_list
     end
 end
