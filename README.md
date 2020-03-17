@@ -4,11 +4,11 @@ Flixpick is a ruby gem that scrapes the top 100 movie lists from RottenTomatoes.
 
 ## Installation
 
-Clone this repository
-CD into the project directory
-run bundle install
-run ruby ./bin/flixpick
-Wait up to 30 seconds as it takes a while to scrape all the data, enjoy!
+- Clone this repository
+- CD into the project directory
+- run bundle install
+- run ruby ./bin/flixpick
+- Wait up to 30 seconds as it takes a while to scrape all the data, enjoy!
 
 ## Contributing
 
